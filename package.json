@@ -1,0 +1,50 @@
+{
+  "name": "datadog-tracer",
+  "version": "0.0.0",
+  "description": "OpenTracing Tracer implementation for Datadog in JavaScript",
+  "main": "src/index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "eslint . && nyc --reporter=lcov --reporter=text mocha",
+    "tdd": "mocha --watch",
+    "codecov": "codecov"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rochdev/datadog-tracer-js.git"
+  },
+  "keywords": [
+    "datadog",
+    "tracer",
+    "opentracing"
+  ],
+  "author": "Roch Devost",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rochdev/datadog-tracer-js/issues"
+  },
+  "homepage": "https://github.com/rochdev/datadog-tracer-js#readme",
+  "dependencies": {
+    "opentracing": "^0.13.0",
+    "protobufjs": "^6.7.3",
+    "superagent": "^3.5.2",
+    "uuid": "^3.0.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "codecov": "^2.1.0",
+    "eslint": "^3.19.0",
+    "eslint-config-standard": "^10.2.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-node": "^4.2.2",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "mocha": "^3.2.0",
+    "nock": "^9.0.13",
+    "nyc": "^10.2.0",
+    "proxyquire": "^1.7.11",
+    "sinon": "^2.1.0",
+    "sinon-chai": "^2.9.0",
+    "underscore": "^1.8.3"
+  }
+}

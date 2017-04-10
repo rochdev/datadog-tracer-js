@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+message TracerState {
+  string trace_id = 1;
+  string span_id = 2;
+  bool   sampled = 3;
+  map<string, string> baggage = 4;
+}
