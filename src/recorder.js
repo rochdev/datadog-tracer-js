@@ -17,8 +17,8 @@ class DatadogRecorder {
       type: span._tags.type,
       error: !!span._tags.error,
       meta: span._tags,
-      start: span._startTime,
-      duration: span._duration
+      start: Math.round(span._startTime * 1e6),
+      duration: Math.round(span._duration * 1e6)
     }]])
   }
 }

@@ -25,8 +25,8 @@ describe('Recorder', () => {
     span = {
       _parentId: '789',
       _operationName: 'operation',
-      _startTime: 1234567890000000000,
-      _duration: 123456789,
+      _startTime: 1234567890000.123456789,
+      _duration: 123.456789123,
       _tags: {
         resource: '/path',
         type: 'web'
@@ -55,7 +55,7 @@ describe('Recorder', () => {
           resource: '/path',
           type: 'web'
         },
-        start: 1234567890000000000,
+        start: 1234567890000123600,
         duration: 123456789
       }]])
       .reply(200, expected)
