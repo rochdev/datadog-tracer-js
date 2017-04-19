@@ -27,6 +27,7 @@
   "dependencies": {
     "long": "^3.2.0",
     "opentracing": "^0.13.0",
+    "performance-now": "^2.1.0",
     "protobufjs": "^6.7.3",
     "safe-buffer": "^5.0.1",
     "superagent": "^3.5.2",
