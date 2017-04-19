@@ -12,8 +12,8 @@ describe('Text Map Propagator', () => {
   it('should inject the span context into the carrier', () => {
     const carrier = {}
     const spanContext = {
-      traceId: new Long(0, 0, true),
-      spanId: new Long(0, 0, true),
+      traceId: new Long(123, 0, true),
+      spanId: new Long(456, 0, true),
       sampled: true,
       baggage: {
         foo: 'bar'
@@ -24,8 +24,8 @@ describe('Text Map Propagator', () => {
     propagator.inject(spanContext, carrier)
 
     expect(carrier).to.deep.equal({
-      'dd-tracer-traceid': '0',
-      'dd-tracer-spanid': '0',
+      'dd-tracer-traceid': '123',
+      'dd-tracer-spanid': '456',
       'dd-tracer-sampled': 'true',
       'dd-baggage-foo': 'bar'
     })
@@ -33,8 +33,8 @@ describe('Text Map Propagator', () => {
 
   it('should extract a span context from the carrier', () => {
     const carrier = {
-      'dd-tracer-traceid': '0',
-      'dd-tracer-spanid': '0',
+      'dd-tracer-traceid': '123',
+      'dd-tracer-spanid': '456',
       'dd-tracer-sampled': 'true',
       'dd-baggage-foo': 'bar'
     }
@@ -43,8 +43,8 @@ describe('Text Map Propagator', () => {
     const spanContext = propagator.extract(carrier)
 
     expect(spanContext).to.deep.equal({
-      traceId: new Long(0, 0, true),
-      spanId: new Long(0, 0, true),
+      traceId: new Long(123, 0, true),
+      spanId: new Long(456, 0, true),
       sampled: true,
       baggage: {
         foo: 'bar'
