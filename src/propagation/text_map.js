@@ -11,19 +11,19 @@ class TextMapPropagator {
       'dd-tracer-sampled': String(spanContext.sampled)
     })
 
-    spanContext.baggage && Object.keys(spanContext.baggage).forEach(key => {
-      carrier[`dd-baggage-${key}`] = spanContext.baggage[key]
+    spanContext.baggageItems && Object.keys(spanContext.baggageItems).forEach(key => {
+      carrier[`dd-baggage-${key}`] = spanContext.baggageItems[key]
     })
   }
 
   extract (carrier) {
-    const baggage = {}
+    const baggageItems = {}
 
     Object.keys(carrier).forEach(key => {
       const match = key.match(/^dd-baggage-(.+)$/)
 
       if (match) {
-        baggage[match[1]] = carrier[key]
+        baggageItems[match[1]] = carrier[key]
       }
     })
 
@@ -32,7 +32,7 @@ class TextMapPropagator {
         traceId: Long.fromString(carrier['dd-tracer-traceid'], true),
         spanId: Long.fromString(carrier['dd-tracer-spanid'], true),
         sampled: carrier['dd-tracer-sampled'] === 'true',
-        baggage
+        baggageItems
       })
     } catch (e) {
       return null

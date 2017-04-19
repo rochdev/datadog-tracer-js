@@ -9,7 +9,7 @@ class DatadogSpanContext extends SpanContext {
     this.traceId = props.traceId
     this.spanId = props.spanId
     this.sampled = props.sampled
-    this.baggage = props.baggage || {}
+    this.baggageItems = props.baggageItems || {}
   }
 }
 

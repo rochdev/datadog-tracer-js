@@ -9,17 +9,10 @@ const TracerState = builder.lookupType('TracerState')
 
 class BinaryPropagator {
   inject (spanContext, carrier) {
-    const payload = {
-      traceId: spanContext.traceId,
-      spanId: spanContext.spanId,
-      sampled: spanContext.sampled,
-      baggage: spanContext.baggage
-    }
-
-    const err = TracerState.verify(payload)
+    const err = TracerState.verify(spanContext)
     if (err) throw err
 
-    const state = TracerState.create(payload)
+    const state = TracerState.create(spanContext)
 
     carrier.buffer = TracerState.encode(state).finish()
   }

@@ -31,7 +31,7 @@ describe('Span', () => {
       traceId: new Long(0, 0, true),
       spanId: new Long(0, 0, true),
       sampled: true,
-      baggage: {}
+      baggageItems: {}
     })
   })
 
@@ -45,7 +45,7 @@ describe('Span', () => {
     span = new Span(tracer, { operationName: 'operation' })
     span.setBaggageItem('foo', 'bar')
 
-    expect(span.context().baggage).to.have.property('foo', 'bar')
+    expect(span.context().baggageItems).to.have.property('foo', 'bar')
   })
 
   it('should set a tag', () => {
@@ -73,7 +73,7 @@ describe('Span', () => {
     const parent = {
       traceId: '123',
       sampled: false,
-      baggage: { foo: 'bar' }
+      baggageItems: { foo: 'bar' }
     }
 
     span = new Span(tracer, { operationName: 'operation', parent })
@@ -82,7 +82,7 @@ describe('Span', () => {
       traceId: '123',
       spanId: new Long(0, 0, true),
       sampled: false,
-      baggage: { foo: 'bar' }
+      baggageItems: { foo: 'bar' }
     })
   })
 })

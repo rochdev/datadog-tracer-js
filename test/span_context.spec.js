@@ -12,7 +12,7 @@ describe('Span Context', () => {
       traceId: '123',
       spanId: '456',
       sampled: true,
-      baggage: { foo: 'bar' }
+      baggageItems: { foo: 'bar' }
     }
     const spanContext = new SpanContext(props)
 
@@ -24,7 +24,7 @@ describe('Span Context', () => {
       traceId: '123',
       spanId: '456',
       sampled: true,
-      baggage: {}
+      baggageItems: {}
     }
     const spanContext = new SpanContext({
       traceId: defaults.traceId,

@@ -20,7 +20,7 @@ describe('Binary Propagator', () => {
       traceId: new Long(123, 0, true),
       spanId: new Long(456, 0, true),
       sampled: true,
-      baggage: {
+      baggageItems: {
         foo: 'bar'
       }
     }
@@ -38,7 +38,7 @@ describe('Binary Propagator', () => {
       traceId: new Long(123, 0, true),
       spanId: new Long(456, 0, true),
       sampled: true,
-      baggage: {
+      baggageItems: {
         foo: 'bar'
       }
     }
@@ -68,7 +68,7 @@ describe('Binary Propagator', () => {
       traceId: 0,
       spanId: 0,
       sampled: 123,
-      baggage: 'foo'
+      baggageItems: 'foo'
     }
 
     const propagator = new BinaryPropagator()

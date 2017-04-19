@@ -15,7 +15,7 @@ describe('Text Map Propagator', () => {
       traceId: new Long(123, 0, true),
       spanId: new Long(456, 0, true),
       sampled: true,
-      baggage: {
+      baggageItems: {
         foo: 'bar'
       }
     }
@@ -46,7 +46,7 @@ describe('Text Map Propagator', () => {
       traceId: new Long(123, 0, true),
       spanId: new Long(456, 0, true),
       sampled: true,
-      baggage: {
+      baggageItems: {
         foo: 'bar'
       }
     })

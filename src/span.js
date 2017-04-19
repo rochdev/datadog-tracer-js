@@ -31,7 +31,7 @@ class DatadogSpan extends Span {
         traceId: parent.traceId,
         spanId: generateUUID(),
         sampled: parent.sampled,
-        baggage: Object.assign({}, parent.baggage)
+        baggageItems: Object.assign({}, parent.baggageItems)
       })
 
       this._parentId = parent.spanId
@@ -40,7 +40,7 @@ class DatadogSpan extends Span {
         traceId: generateUUID(),
         spanId: generateUUID(),
         sampled: this._sampler.isSampled(this),
-        baggage: {}
+        baggageItems: {}
       })
 
       this._parentId = null
@@ -60,11 +60,11 @@ class DatadogSpan extends Span {
   }
 
   _setBaggageItem (key, value) {
-    this._spanContext.baggage[key] = value
+    this._spanContext.baggageItems[key] = value
   }
 
   _getBaggageItem (key) {
-    return this._spanContext.baggage[key]
+    return this._spanContext.baggageItems[key]
   }
 
   _addTags (keyValuePairs) {
