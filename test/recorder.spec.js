@@ -19,8 +19,8 @@ describe('Recorder', () => {
     }
 
     spanContext = {
-      traceId: new Long(0, 0, true),
-      spanId: new Long(0, 0, true)
+      traceId: new Long(123, 0, true),
+      spanId: new Long(456, 0, true)
     }
 
     span = {
@@ -48,8 +48,8 @@ describe('Recorder', () => {
       }
     })
       .put('/v0.3/traces', JSON.stringify([[{
-        trace_id: 0,
-        span_id: 0,
+        trace_id: 123,
+        span_id: 456,
         parent_id: 0,
         name: 'operation',
         resource: '/path',

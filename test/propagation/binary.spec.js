@@ -17,8 +17,8 @@ describe('Binary Propagator', () => {
   it('should inject the span context into the carrier', () => {
     const carrier = {}
     const spanContext = {
-      traceId: new Long(0, 0, true),
-      spanId: new Long(0, 0, true),
+      traceId: new Long(123, 0, true),
+      spanId: new Long(456, 0, true),
       sampled: true,
       baggage: {
         foo: 'bar'
@@ -30,40 +30,25 @@ describe('Binary Propagator', () => {
 
     const state = TracerState.toObject(TracerState.decode(carrier.buffer))
 
-    expect(state).to.deep.equal({
-      traceId: '0',
-      spanId: '0',
-      sampled: true,
-      baggage: {
-        foo: 'bar'
-      }
-    })
+    expect(state).to.deep.equal(spanContext)
   })
 
   it('should extract a span context from the carrier', () => {
-    const state = TracerState.create({
-      traceId: '0',
-      spanId: '0',
+    const spanContext = {
+      traceId: new Long(123, 0, true),
+      spanId: new Long(456, 0, true),
       sampled: true,
       baggage: {
         foo: 'bar'
       }
-    })
+    }
+    const state = TracerState.create(spanContext)
     const carrier = {
       buffer: TracerState.encode(state).finish()
     }
-
     const propagator = new BinaryPropagator()
-    const spanContext = propagator.extract(carrier)
 
-    expect(spanContext).to.deep.equal({
-      traceId: new Long(0, 0, true),
-      spanId: new Long(0, 0, true),
-      sampled: true,
-      baggage: {
-        foo: 'bar'
-      }
-    })
+    expect(propagator.extract(carrier)).to.deep.equal(spanContext)
   })
 
   it('should return null when the carrier does not contain a valid context', () => {
