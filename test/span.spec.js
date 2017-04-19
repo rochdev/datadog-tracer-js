@@ -1,6 +1,7 @@
 'use strict'
 
 const proxyquire = require('proxyquire')
+const Long = require('long')
 
 describe('Span', () => {
   let Span
@@ -11,7 +12,7 @@ describe('Span', () => {
   let uuid
 
   beforeEach(() => {
-    uuid = { v4: sinon.stub().returns('guid') }
+    uuid = { v4: sinon.stub() }
     tracer = {}
     recorder = { record: sinon.spy() }
     Recorder = sinon.stub().returns(recorder)
@@ -23,12 +24,12 @@ describe('Span', () => {
     })
   })
 
-  it('have a default context', () => {
+  it('should have a default context', () => {
     span = new Span(tracer, { operationName: 'operation' })
 
     expect(span.context()).to.deep.equal({
-      traceId: 'guid',
-      spanId: 'guid',
+      traceId: new Long(0, 0, true),
+      spanId: new Long(0, 0, true),
       sampled: true,
       baggage: {}
     })
@@ -68,7 +69,7 @@ describe('Span', () => {
     expect(recorder.record).to.have.been.calledWith(span)
   })
 
-  it('use a parent context', () => {
+  it('should use a parent context', () => {
     const parent = {
       traceId: '123',
       sampled: false,
@@ -79,7 +80,7 @@ describe('Span', () => {
 
     expect(span.context()).to.deep.equal({
       traceId: '123',
-      spanId: 'guid',
+      spanId: new Long(0, 0, true),
       sampled: false,
       baggage: { foo: 'bar' }
     })
