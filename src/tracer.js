@@ -12,7 +12,7 @@ class DatadogTracer extends Tracer {
     super()
 
     const service = config.service
-    const endpoint = config.service
+    const endpoint = config.endpoint
     const hostname = config.hostname || 'localhost'
     const port = config.port || 8126
     const protocol = config.protocol || 'http'

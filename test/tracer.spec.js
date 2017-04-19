@@ -44,6 +44,27 @@ describe('Tracer', () => {
     tracer = new Tracer({ service: 'service' })
   })
 
+  it('should support host configuration', () => {
+    const endpoint = 'https://test:7777'
+
+    tracer = new Tracer({
+      service: 'service',
+      hostname: 'test',
+      port: 7777,
+      protocol: 'https'
+    })
+
+    expect(tracer._endpoint).to.equal(endpoint)
+  })
+
+  it('should support endpoint configuration', () => {
+    const endpoint = 'test'
+
+    tracer = new Tracer({ service: 'service', endpoint })
+
+    expect(tracer._endpoint).to.equal(endpoint)
+  })
+
   it('should start a span', () => {
     fields.tags = { foo: 'bar' }
     fields.startTime = 1234567890000000000

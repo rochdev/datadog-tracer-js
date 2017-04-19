@@ -1,6 +1,7 @@
 'use strict'
 
 const nock = require('nock')
+const Long = require('long')
 
 describe('Recorder', () => {
   let Recorder
@@ -18,12 +19,12 @@ describe('Recorder', () => {
     }
 
     spanContext = {
-      traceId: '123',
-      spanId: '456'
+      traceId: new Long(0, 0, true),
+      spanId: new Long(0, 0, true)
     }
 
     span = {
-      _parentId: '789',
+      _parentId: new Long(0, 0, true),
       _operationName: 'operation',
       _startTime: 1234567890000.123456789,
       _duration: 123.456789123,
@@ -41,23 +42,27 @@ describe('Recorder', () => {
   it('should send a request to the Datadog agent', () => {
     const expected = 'response'
 
-    nock('http://localhost:8080')
-      .put('/v0.3/traces', [[{
-        trace_id: '123',
-        span_id: '456',
-        parent_id: '789',
+    nock('http://localhost:8080', {
+      reqheaders: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .put('/v0.3/traces', JSON.stringify([[{
+        trace_id: 0,
+        span_id: 0,
+        parent_id: 0,
         name: 'operation',
         resource: '/path',
         service: 'service',
         type: 'web',
-        error: false,
+        error: 0,
         meta: {
           resource: '/path',
           type: 'web'
         },
         start: 1234567890000123600,
         duration: 123456789
-      }]])
+      }]]))
       .reply(200, expected)
 
     return recorder.record(span).then(response => {

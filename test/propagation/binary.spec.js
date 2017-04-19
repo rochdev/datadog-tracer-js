@@ -2,6 +2,7 @@
 
 const path = require('path')
 const protobuf = require('protobufjs')
+const Long = require('long')
 
 const builder = protobuf.loadSync(path.join(__dirname, '..', '..', 'src', 'propagation', 'state.proto'))
 const TracerState = builder.lookupType('TracerState')
@@ -16,8 +17,8 @@ describe('Binary Propagator', () => {
   it('should inject the span context into the carrier', () => {
     const carrier = {}
     const spanContext = {
-      traceId: '123',
-      spanId: '456',
+      traceId: new Long(0, 0, true),
+      spanId: new Long(0, 0, true),
       sampled: true,
       baggage: {
         foo: 'bar'
@@ -29,13 +30,20 @@ describe('Binary Propagator', () => {
 
     const state = TracerState.toObject(TracerState.decode(carrier.buffer))
 
-    expect(state).to.deep.equal(spanContext)
+    expect(state).to.deep.equal({
+      traceId: '0',
+      spanId: '0',
+      sampled: true,
+      baggage: {
+        foo: 'bar'
+      }
+    })
   })
 
   it('should extract a span context from the carrier', () => {
     const state = TracerState.create({
-      traceId: '123',
-      spanId: '456',
+      traceId: '0',
+      spanId: '0',
       sampled: true,
       baggage: {
         foo: 'bar'
@@ -49,8 +57,8 @@ describe('Binary Propagator', () => {
     const spanContext = propagator.extract(carrier)
 
     expect(spanContext).to.deep.equal({
-      traceId: '123',
-      spanId: '456',
+      traceId: new Long(0, 0, true),
+      spanId: new Long(0, 0, true),
       sampled: true,
       baggage: {
         foo: 'bar'
@@ -71,7 +79,12 @@ describe('Binary Propagator', () => {
 
   it('should throw when trying to inject an invalid span context', () => {
     const carrier = {}
-    const spanContext = null
+    const spanContext = {
+      traceId: 0,
+      spanId: 0,
+      sampled: 123,
+      baggage: 'foo'
+    }
 
     const propagator = new BinaryPropagator()
 

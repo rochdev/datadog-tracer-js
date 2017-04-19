@@ -1,12 +1,13 @@
 'use strict'
 
+const Long = require('long')
 const DatadogSpanContext = require('../span_context')
 
 class TextMapPropagator {
   inject (spanContext, carrier) {
     Object.assign(carrier, {
-      'dd-tracer-traceid': spanContext.traceId,
-      'dd-tracer-spanid': spanContext.spanId,
+      'dd-tracer-traceid': spanContext.traceId.toString(),
+      'dd-tracer-spanid': spanContext.spanId.toString(),
       'dd-tracer-sampled': String(spanContext.sampled)
     })
 
@@ -26,12 +27,16 @@ class TextMapPropagator {
       }
     })
 
-    return new DatadogSpanContext({
-      traceId: carrier['dd-tracer-traceid'],
-      spanId: carrier['dd-tracer-spanid'],
-      sampled: carrier['dd-tracer-sampled'] === 'true',
-      baggage
-    })
+    try {
+      return new DatadogSpanContext({
+        traceId: Long.fromString(carrier['dd-tracer-traceid'], true),
+        spanId: Long.fromString(carrier['dd-tracer-spanid'], true),
+        sampled: carrier['dd-tracer-sampled'] === 'true',
+        baggage
+      })
+    } catch (e) {
+      return null
+    }
   }
 }
 
