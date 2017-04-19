@@ -8,15 +8,16 @@ const Span = opentracing.Span
 const Recorder = require('./recorder')
 const Sampler = require('./sampler')
 const SpanContext = require('./span_context')
+const platform = require('./platform')
 
 class DatadogSpan extends Span {
   constructor (tracer, fields) {
     super()
 
+    const startTime = fields.startTime || platform.now()
     const operationName = fields.operationName
     const parent = fields.parent || null
     const tags = fields.tags || {}
-    const startTime = fields.startTime || Date.now()
 
     this._parentTracer = tracer
     this._sampler = new Sampler()
@@ -73,7 +74,7 @@ class DatadogSpan extends Span {
   }
 
   _finish (finishTime) {
-    finishTime = finishTime || Date.now()
+    finishTime = finishTime || platform.now()
 
     this._duration = finishTime - this._startTime
     this._recorder.record(this)
