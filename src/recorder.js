@@ -22,11 +22,10 @@ class DatadogRecorder {
       duration: Math.round(span._duration * 1e6)
     }]]).replace(/"(trace_id|span_id|parent_id)":"(\d+)"/g, '"$1":$2')
 
-    // TODO: handle request errors
     return request
       .put(`${tracer._endpoint}/v0.3/traces`)
       .set('Content-Type', 'application/json')
-      .send(body).catch()
+      .send(body)
   }
 }
 

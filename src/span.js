@@ -78,6 +78,9 @@ class DatadogSpan extends Span {
 
     this._duration = finishTime - this._startTime
     this._recorder.record(this)
+      .catch(e => {
+        this._parentTracer.emit('error', e)
+      })
   }
 }
 

@@ -2,6 +2,7 @@
 
 const opentracing = require('opentracing')
 const Tracer = opentracing.Tracer
+const EventEmitter = require('eventemitter3')
 const Span = require('./span')
 const TextMapPropagator = require('./propagation/text_map')
 const HttpHeadersPropagator = require('./propagation/http_headers')
@@ -19,6 +20,7 @@ class DatadogTracer extends Tracer {
 
     this._service = service
     this._endpoint = endpoint || `${protocol}://${hostname}:${port}`
+    this._emitter = new EventEmitter()
   }
 
   _startSpan (name, fields) {
@@ -77,5 +79,11 @@ function getParent (references) {
 
   return parent
 }
+
+Object.keys(EventEmitter.prototype).forEach(method => {
+  DatadogTracer.prototype[method] = function () {
+    this._emitter[method].apply(this._emitter, arguments)
+  }
+})
 
 module.exports = DatadogTracer

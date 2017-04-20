@@ -16,7 +16,8 @@
   "keywords": [
     "datadog",
     "tracer",
-    "opentracing"
+    "opentracing",
+    "apm"
   ],
   "author": "Roch Devost",
   "license": "MIT",
@@ -25,6 +26,7 @@
   },
   "homepage": "https://github.com/rochdev/datadog-tracer-js#readme",
   "dependencies": {
+    "eventemitter3": "^2.0.3",
     "long": "^3.2.0",
     "opentracing": "^0.13.0",
     "performance-now": "^2.1.0",

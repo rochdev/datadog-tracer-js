@@ -43,9 +43,14 @@ var Tracer = require('datadog-tracer')
 
 var tracer = new Tracer({ service: 'my service' })
 
+// handle errors from Datadog agent. omit this if you want to ignore errors
+tracer.on('error', function (e) {
+  console.log(e)
+})
+
 var app = express()
 
-app.get('/user/:id', (req, res) => {
+app.get('/user/:id', function (req, res) {
   var span = tracer.startSpan('someOperation')
 
   // do stuff
