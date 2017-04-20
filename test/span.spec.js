@@ -2,6 +2,7 @@
 
 const proxyquire = require('proxyquire')
 const Long = require('long')
+const EventEmitter = require('eventemitter3')
 
 describe('Span', () => {
   let Span
@@ -13,8 +14,8 @@ describe('Span', () => {
 
   beforeEach(() => {
     uuid = { v4: sinon.stub() }
-    tracer = {}
-    recorder = { record: sinon.spy() }
+    tracer = new EventEmitter()
+    recorder = { record: sinon.stub() }
     Recorder = sinon.stub().returns(recorder)
 
     Span = proxyquire('../src/span', {
@@ -63,10 +64,24 @@ describe('Span', () => {
   })
 
   it('should record on finish', () => {
+    recorder.record.returns(Promise.resolve())
+
     span = new Span(tracer, { operationName: 'operation' })
     span.finish()
 
     expect(recorder.record).to.have.been.calledWith(span)
+  })
+
+  it('should emit an error to its tracer when recording fails', done => {
+    recorder.record.returns(Promise.reject(new Error()))
+
+    tracer.on('error', e => {
+      expect(e).to.be.instanceof(Error)
+      done()
+    })
+
+    span = new Span(tracer, { operationName: 'operation' })
+    span.finish()
   })
 
   it('should use a parent context', () => {

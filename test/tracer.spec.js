@@ -140,6 +140,17 @@ describe('Tracer', () => {
     })
   })
 
+  it('should support error event', done => {
+    const error = new Error()
+
+    tracer.on('error', e => {
+      expect(e).to.equal(error)
+      done()
+    })
+
+    tracer.emit('error', error)
+  })
+
   it('should support inject of text map format', () => {
     TextMapPropagator.returns(propagator)
 
