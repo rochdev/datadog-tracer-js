@@ -9,6 +9,7 @@ describe('Recorder', () => {
   let tracer
   let span
   let spanContext
+  let request
 
   beforeEach(() => {
     Recorder = require('../src/recorder')
@@ -36,6 +37,23 @@ describe('Recorder', () => {
       tracer: sinon.stub().returns(tracer)
     }
 
+    request = [[{
+      trace_id: 123,
+      span_id: 456,
+      parent_id: 0,
+      name: 'operation',
+      resource: '/path',
+      service: 'service',
+      type: 'web',
+      error: 0,
+      meta: {
+        resource: '/path',
+        type: 'web'
+      },
+      start: 1234567890000123600,
+      duration: 123456789
+    }]]
+
     recorder = new Recorder()
   })
 
@@ -47,22 +65,32 @@ describe('Recorder', () => {
         'Content-Type': 'application/json'
       }
     })
-      .put('/v0.3/traces', JSON.stringify([[{
-        trace_id: 123,
-        span_id: 456,
-        parent_id: 0,
-        name: 'operation',
-        resource: '/path',
-        service: 'service',
-        type: 'web',
-        error: 0,
-        meta: {
-          resource: '/path',
-          type: 'web'
-        },
-        start: 1234567890000123600,
-        duration: 123456789
-      }]]))
+      .put('/v0.3/traces', request)
+      .reply(200, expected)
+
+    return recorder.record(span).then(response => {
+      expect(response.status).to.equal(200)
+      expect(response.text).to.equal(expected)
+    })
+  })
+
+  it('should support long integers for IDs', () => {
+    const expected = 'response'
+
+    spanContext.traceId = Long.fromString('9223372036854775807', true)
+    spanContext.spanId = Long.fromString('9223372036854775807', true)
+    span._parentId = Long.fromString('9223372036854775807', true)
+
+    request[0][0].trace_id = '9223372036854775807'
+    request[0][0].span_id = '9223372036854775807'
+    request[0][0].parent_id = '9223372036854775807'
+
+    nock('http://localhost:8080', {
+      reqheaders: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .put('/v0.3/traces', JSON.stringify(request).replace(/"(trace_id|span_id|parent_id)":"(\d+)"/g, '"$1":$2'))
       .reply(200, expected)
 
     return recorder.record(span).then(response => {
