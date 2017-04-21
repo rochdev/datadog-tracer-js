@@ -9,9 +9,6 @@
   "env": {
     "node" : true
   },
-  "globals": {
-    "sinon": true
-  },
   "rules": {
     "max-len": [2, 120, 2],
     "no-var": 2,
