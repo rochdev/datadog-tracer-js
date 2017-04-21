@@ -1,6 +1,5 @@
 'use strict'
 
-const nock = require('nock')
 const Long = require('long')
 
 describe('Recorder', () => {
