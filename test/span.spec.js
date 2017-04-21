@@ -2,7 +2,7 @@
 
 const proxyquire = require('proxyquire')
 const Long = require('long')
-const EventEmitter = require('eventemitter3')
+const EventEmitter = require('@protobufjs/eventemitter')
 
 describe('Span', () => {
   let Span
