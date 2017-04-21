@@ -2,7 +2,7 @@
 
 const opentracing = require('opentracing')
 const Tracer = opentracing.Tracer
-const EventEmitter = require('eventemitter3')
+const EventEmitter = require('@protobufjs/eventemitter')
 const Span = require('./span')
 const TextMapPropagator = require('./propagation/text_map')
 const HttpHeadersPropagator = require('./propagation/http_headers')
