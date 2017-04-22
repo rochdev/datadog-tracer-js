@@ -12,9 +12,11 @@ class BinaryPropagator {
     const err = TracerState.verify(spanContext)
     if (err) throw err
 
-    const state = TracerState.create(spanContext)
+    const message = TracerState.create(spanContext)
 
-    carrier.buffer = TracerState.encode(state).finish()
+    copy(message.baggageItems, spanContext.baggageItems, JSON.stringify)
+
+    carrier.buffer = TracerState.encode(message).finish()
   }
 
   extract (carrier) {
@@ -23,11 +25,20 @@ class BinaryPropagator {
     try {
       const message = TracerState.decode(carrier.buffer)
       state = TracerState.toObject(message)
+
+      copy(state.baggageItems, state.baggageItems, JSON.parse)
+
       return new SpanContext(state)
     } catch (e) {
       return null
     }
   }
+}
+
+function copy (dest, src, customizer) {
+  Object.keys(src).forEach(key => {
+    dest[key] = customizer(src[key])
+  })
 }
 
 module.exports = BinaryPropagator

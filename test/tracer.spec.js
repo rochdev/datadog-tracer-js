@@ -13,7 +13,6 @@ describe('Tracer', () => {
   let fields
   let carrier
   let TextMapPropagator
-  let HttpHeadersPropagator
   let BinaryPropagator
   let propagator
 
@@ -27,7 +26,6 @@ describe('Tracer', () => {
     carrier = {}
 
     TextMapPropagator = sinon.stub()
-    HttpHeadersPropagator = sinon.stub()
     BinaryPropagator = sinon.stub()
     propagator = {
       inject: sinon.stub(),
@@ -37,7 +35,6 @@ describe('Tracer', () => {
     Tracer = proxyquire('../src/tracer', {
       './span': Span,
       './propagation/text_map': TextMapPropagator,
-      './propagation/http_headers': HttpHeadersPropagator,
       './propagation/binary': BinaryPropagator
     })
 
@@ -160,7 +157,7 @@ describe('Tracer', () => {
   })
 
   it('should support inject of http headers format', () => {
-    HttpHeadersPropagator.returns(propagator)
+    TextMapPropagator.returns(propagator)
 
     tracer.inject(spanContext, opentracing.FORMAT_HTTP_HEADERS, carrier)
 
@@ -185,7 +182,7 @@ describe('Tracer', () => {
   })
 
   it('should support extract of http headers format', () => {
-    HttpHeadersPropagator.returns(propagator)
+    TextMapPropagator.returns(propagator)
     propagator.extract.withArgs(carrier).returns('spanContext')
 
     const spanContext = tracer.extract(opentracing.FORMAT_HTTP_HEADERS, carrier)

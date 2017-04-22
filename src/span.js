@@ -69,7 +69,7 @@ class DatadogSpan extends Span {
 
   _addTags (keyValuePairs) {
     Object.keys(keyValuePairs).forEach(key => {
-      this._tags[key] = keyValuePairs[key]
+      this._tags[key] = String(keyValuePairs[key])
     })
   }
 
