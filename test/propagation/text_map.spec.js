@@ -27,7 +27,7 @@ describe('Text Map Propagator', () => {
       'dd-tracer-traceid': '123',
       'dd-tracer-spanid': '456',
       'dd-tracer-sampled': 'true',
-      'dd-baggage-foo': 'bar'
+      'dd-baggage-foo': '"bar"'
     })
   })
 
@@ -36,7 +36,7 @@ describe('Text Map Propagator', () => {
       'dd-tracer-traceid': '123',
       'dd-tracer-spanid': '456',
       'dd-tracer-sampled': 'true',
-      'dd-baggage-foo': 'bar'
+      'dd-baggage-foo': '"bar"'
     }
 
     const propagator = new TextMapPropagator()

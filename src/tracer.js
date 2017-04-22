@@ -5,7 +5,6 @@ const Tracer = opentracing.Tracer
 const EventEmitter = require('@protobufjs/eventemitter')
 const Span = require('./span')
 const TextMapPropagator = require('./propagation/text_map')
-const HttpHeadersPropagator = require('./propagation/http_headers')
 const BinaryPropagator = require('./propagation/binary')
 
 class DatadogTracer extends Tracer {
@@ -47,8 +46,6 @@ function getPropagator (format) {
 
   switch (format) {
     case opentracing.FORMAT_HTTP_HEADERS:
-      propagator = new HttpHeadersPropagator()
-      break
     case opentracing.FORMAT_TEXT_MAP:
       propagator = new TextMapPropagator()
       break

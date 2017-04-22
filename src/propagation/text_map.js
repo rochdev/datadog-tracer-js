@@ -12,26 +12,26 @@ class TextMapPropagator {
     })
 
     spanContext.baggageItems && Object.keys(spanContext.baggageItems).forEach(key => {
-      carrier[`dd-baggage-${key}`] = spanContext.baggageItems[key]
+      carrier[`dd-baggage-${key}`] = JSON.stringify(spanContext.baggageItems[key])
     })
   }
 
   extract (carrier) {
     const baggageItems = {}
 
-    Object.keys(carrier).forEach(key => {
-      const match = key.match(/^dd-baggage-(.+)$/)
-
-      if (match) {
-        baggageItems[match[1]] = carrier[key]
-      }
-    })
-
     try {
+      Object.keys(carrier).forEach(key => {
+        const match = key.match(/^dd-baggage-(.+)$/)
+
+        if (match) {
+          baggageItems[match[1]] = JSON.parse(carrier[key])
+        }
+      })
+
       return new DatadogSpanContext({
         traceId: Long.fromString(carrier['dd-tracer-traceid'], true),
         spanId: Long.fromString(carrier['dd-tracer-spanid'], true),
-        sampled: carrier['dd-tracer-sampled'] === 'true',
+        sampled: JSON.parse(carrier['dd-tracer-sampled']),
         baggageItems
       })
     } catch (e) {

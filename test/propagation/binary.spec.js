@@ -30,7 +30,11 @@ describe('Binary Propagator', () => {
 
     const state = TracerState.toObject(TracerState.decode(carrier.buffer))
 
-    expect(state).to.deep.equal(spanContext)
+    expect(state).to.deep.equal(Object.assign({}, spanContext, {
+      baggageItems: {
+        foo: '"bar"'
+      }
+    }))
   })
 
   it('should extract a span context from the carrier', () => {
@@ -42,7 +46,11 @@ describe('Binary Propagator', () => {
         foo: 'bar'
       }
     }
-    const state = TracerState.create(spanContext)
+    const state = TracerState.create(Object.assign({}, spanContext, {
+      baggageItems: {
+        foo: '"bar"'
+      }
+    }))
     const carrier = {
       buffer: TracerState.encode(state).finish()
     }

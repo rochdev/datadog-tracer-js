@@ -63,6 +63,13 @@ describe('Span', () => {
     expect(span._tags).to.have.property('foo', 'bar')
   })
 
+  it('should ensure tags are strings', () => {
+    span = new Span(tracer, { operationName: 'operation' })
+    span.addTags({ foo: 123 })
+
+    expect(span._tags).to.have.property('foo', '123')
+  })
+
   it('should record on finish', () => {
     recorder.record.returns(Promise.resolve())
 
