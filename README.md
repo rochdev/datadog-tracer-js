@@ -4,6 +4,7 @@
 [![Build Status](https://travis-ci.org/rochdev/datadog-tracer-js.svg?branch=master)](https://travis-ci.org/rochdev/datadog-tracer-js)
 [![codecov](https://codecov.io/gh/rochdev/datadog-tracer-js/branch/master/graph/badge.svg)](https://codecov.io/gh/rochdev/datadog-tracer-js)
 [![Code Climate](https://codeclimate.com/github/rochdev/datadog-tracer-js/badges/gpa.svg)](https://codeclimate.com/github/rochdev/datadog-tracer-js)
+[![Greenkeeper badge](https://badges.greenkeeper.io/rochdev/datadog-tracer-js.svg)](https://greenkeeper.io/)
 [![bitHound Dependencies](https://www.bithound.io/github/rochdev/datadog-tracer-js/badges/dependencies.svg)](https://www.bithound.io/github/rochdev/datadog-tracer-js/master/dependencies/npm)
 
 OpenTracing tracer implementation for Datadog in JavaScript.
