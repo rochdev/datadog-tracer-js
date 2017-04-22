@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/rochdev/datadog-tracer-js#readme",
   "dependencies": {
+    "@protobufjs/eventemitter": "^1.1.0",
     "json-bignum": "^0.0.3",
     "long": "^3.2.0",
     "opentracing": "^0.13.0",
