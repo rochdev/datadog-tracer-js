@@ -46,9 +46,7 @@ const app = express()
 const tracer = new Tracer({ service: 'example' })
 
 // handle errors from Datadog agent. omit this if you want to ignore errors
-tracer.on('error', e => {
-  console.log(e)
-})
+tracer.on('error', e => console.log(e))
 
 app.get('/hello/:name', (req, res) => {
   const span = tracer.startSpan('say_hello')
