@@ -1,18 +1,27 @@
-var express = require('express')
-var Tracer = require('../src')
+const express = require('express')
+const Tracer = require('../src')
 
-var app = express()
-var tracer = new Tracer({ service: 'example' })
+const app = express()
+const tracer = new Tracer({ service: 'example' })
 
-tracer.on('error', function (e) {
-  console.log(e)
+tracer.on('error', e => console.log(e))
+
+app.use((req, res, next) => {
+  const span = tracer.startSpan('express.request')
+
+  res.on('finish', () => trace(req, res, span))
+  res.on('close', () => trace(req, res, span))
+
+  next()
 })
 
-app.get('/hello/:name', function (req, res) {
-  var span = tracer.startSpan('say_hello')
+app.get('/hello/:name', (req, res) => {
+  res.send(`Hello, ${req.params.name}!`)
+})
 
-  res.status(200)
+app.listen(3000)
 
+function trace (req, res, span) {
   span.addTags({
     'resource': req.route.path,
     'type': 'web',
@@ -23,8 +32,4 @@ app.get('/hello/:name', function (req, res) {
   })
 
   span.finish()
-
-  res.send('Hello, ' + req.params.name + '!')
-})
-
-app.listen(3000)
+}

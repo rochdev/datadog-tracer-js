@@ -39,40 +39,38 @@ See the OpenTracing JavaScript [documentation](https://github.com/opentracing/op
 ### Example
 
 ```js
-var express = require('express')
-var Tracer = require('datadog-tracer')
+const express = require('express')
+const Tracer = require('datadog-tracer')
 
-var app = express()
-var tracer = new Tracer({ service: 'example' })
+const app = express()
+const tracer = new Tracer({ service: 'example' })
 
 // handle errors from Datadog agent. omit this if you want to ignore errors
-tracer.on('error', function (e) {
+tracer.on('error', e => {
   console.log(e)
 })
 
-app.get('/hello/:name', function (req, res) {
-  var span = tracer.startSpan('say_hello')
-
-  res.status(200)
+app.get('/hello/:name', (req, res) => {
+  const span = tracer.startSpan('say_hello')
 
   span.addTags({
-    'resource': req.route.path, // required by Datadog
+    'resource': '/hello/:name', // required by Datadog
     'type': 'web', // required by Datadog
     'span.kind': 'server',
-    'http.method': req.method,
+    'http.method': 'GET',
     'http.url': req.url,
-    'http.status_code': res.statusCode
+    'http.status_code': '200'
   })
 
   span.finish()
 
-  res.send('Hello, ' + req.params.name + '!')
+  res.send(`Hello, ${req.params.name}!`)
 })
 
 app.listen(3000)
 ```
 
-See the [example](example) folder to run this example.
+See the [example](example) folder for a more advanced version.
 
 ## API Documentation
 
