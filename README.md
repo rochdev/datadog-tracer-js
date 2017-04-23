@@ -42,37 +42,43 @@ See the OpenTracing JavaScript [documentation](https://github.com/opentracing/op
 var express = require('express')
 var Tracer = require('datadog-tracer')
 
-var tracer = new Tracer({ service: 'my service' })
+var app = express()
+var tracer = new Tracer({ service: 'example' })
 
 // handle errors from Datadog agent. omit this if you want to ignore errors
 tracer.on('error', function (e) {
   console.log(e)
 })
 
-var app = express()
+app.get('/hello/:name', function (req, res) {
+  var span = tracer.startSpan('say_hello')
 
-app.get('/user/:id', function (req, res) {
-  var span = tracer.startSpan('someOperation')
-
-  // do stuff
+  res.status(200)
 
   span.addTags({
-    'resource': '/user/:id', // required by Datadog
+    'resource': req.route.path, // required by Datadog
     'type': 'web', // required by Datadog
     'span.kind': 'server',
-    'http.method': 'GET',
-    'http.url': '/user/123',
-    'http.status_code': '200'
+    'http.method': req.method,
+    'http.url': req.url,
+    'http.status_code': res.statusCode
   })
+
   span.finish()
-  
-  res.send()
+
+  res.send('Hello, ' + req.params.name + '!')
 })
+
+app.listen(3000)
 ```
 
-See the [semantic conventions](https://github.com/opentracing/specification/blob/master/semantic_conventions.md) for
-more information about tags.
+See the [example](example) folder to run this example.
 
 ## API Documentation
 
 See the OpenTracing JavaScript [API](https://doc.esdoc.org/github.com/opentracing/opentracing-javascript/)
+
+## Additional Resources
+
+* [OpenTracing Specification](https://github.com/opentracing/specification/blob/master/specification.md)
+* [OpenTracing Semantic Conventions](https://github.com/opentracing/specification/blob/master/semantic_conventions.md)
