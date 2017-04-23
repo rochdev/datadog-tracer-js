@@ -1,8 +1,5 @@
 'use strict'
 
-const uuid = require('uuid')
-const Long = require('long')
-const Buffer = require('safe-buffer').Buffer
 const opentracing = require('opentracing')
 const Span = opentracing.Span
 const Recorder = require('./recorder')
@@ -29,7 +26,7 @@ class DatadogSpan extends Span {
     if (parent) {
       this._spanContext = new SpanContext({
         traceId: parent.traceId,
-        spanId: generateUUID(),
+        spanId: platform.id(),
         sampled: parent.sampled,
         baggageItems: Object.assign({}, parent.baggageItems)
       })
@@ -37,8 +34,8 @@ class DatadogSpan extends Span {
       this._parentId = parent.spanId
     } else {
       this._spanContext = new SpanContext({
-        traceId: generateUUID(),
-        spanId: generateUUID(),
+        traceId: platform.id(),
+        spanId: platform.id(),
         sampled: this._sampler.isSampled(this),
         baggageItems: {}
       })
@@ -77,17 +74,12 @@ class DatadogSpan extends Span {
     finishTime = finishTime || platform.now()
 
     this._duration = finishTime - this._startTime
+
     this._recorder.record(this)
       .catch(e => {
         this._parentTracer.emit('error', e)
       })
   }
-}
-
-function generateUUID () {
-  const buffer = Buffer.alloc(8)
-  uuid.v4(null, buffer)
-  return new Long(buffer.readUInt32LE(), buffer.readUInt32LE(4), true)
 }
 
 module.exports = DatadogSpan

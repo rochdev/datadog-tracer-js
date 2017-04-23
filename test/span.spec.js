@@ -10,16 +10,16 @@ describe('Span', () => {
   let tracer
   let Recorder
   let recorder
-  let uuid
+  let platform
 
   beforeEach(() => {
-    uuid = { v4: sinon.stub() }
+    platform = { id: sinon.stub().returns(new Long(0, 0, true)) }
     tracer = new EventEmitter()
     recorder = { record: sinon.stub() }
     Recorder = sinon.stub().returns(recorder)
 
     Span = proxyquire('../src/span', {
-      'uuid': uuid,
+      './platform': platform,
       './tracer': tracer,
       './recorder': Recorder
     })
