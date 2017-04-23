@@ -10,6 +10,7 @@ const BinaryPropagator = require('./propagation/binary')
 class DatadogTracer extends Tracer {
   constructor (config) {
     super()
+    EventEmitter.call(this)
 
     const service = config.service
     const endpoint = config.endpoint
@@ -19,7 +20,6 @@ class DatadogTracer extends Tracer {
 
     this._service = service
     this._endpoint = endpoint || `${protocol}://${hostname}:${port}`
-    this._emitter = new EventEmitter()
   }
 
   _startSpan (name, fields) {
@@ -77,10 +77,6 @@ function getParent (references) {
   return parent
 }
 
-Object.keys(EventEmitter.prototype).forEach(method => {
-  DatadogTracer.prototype[method] = function () {
-    this._emitter[method].apply(this._emitter, arguments)
-  }
-})
+Object.assign(DatadogTracer.prototype, EventEmitter.prototype)
 
 module.exports = DatadogTracer
