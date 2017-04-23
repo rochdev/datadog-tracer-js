@@ -31,8 +31,7 @@
     "long": "^3.2.0",
     "opentracing": "^0.13.0",
     "performance-now": "^2.1.0",
-    "protobufjs": "^6.7.3",
-    "superagent": "^3.5.2"
+    "protobufjs": "^6.7.3"
   },
   "devDependencies": {
     "chai": "^3.5.0",

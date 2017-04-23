@@ -3,6 +3,7 @@
 const proxyquire = require('proxyquire')
 const opentracing = require('opentracing')
 const Reference = opentracing.Reference
+const Endpoint = require('../src/endpoint')
 
 describe('Tracer', () => {
   let Tracer
@@ -42,8 +43,6 @@ describe('Tracer', () => {
   })
 
   it('should support host configuration', () => {
-    const endpoint = 'https://test:7777'
-
     tracer = new Tracer({
       service: 'service',
       hostname: 'test',
@@ -51,15 +50,15 @@ describe('Tracer', () => {
       protocol: 'https'
     })
 
-    expect(tracer._endpoint).to.equal(endpoint)
+    expect(tracer._endpoint).to.deep.equal(new Endpoint('https://test:7777'))
   })
 
   it('should support endpoint configuration', () => {
-    const endpoint = 'test'
+    const endpoint = 'http://test:123'
 
     tracer = new Tracer({ service: 'service', endpoint })
 
-    expect(tracer._endpoint).to.equal(endpoint)
+    expect(tracer._endpoint).to.deep.equal(new Endpoint('http://test:123'))
   })
 
   it('should start a span', () => {

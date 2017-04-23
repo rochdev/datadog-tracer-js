@@ -6,6 +6,7 @@ const EventEmitter = require('@protobufjs/eventemitter')
 const Span = require('./span')
 const TextMapPropagator = require('./propagation/text_map')
 const BinaryPropagator = require('./propagation/binary')
+const Endpoint = require('./endpoint')
 
 class DatadogTracer extends Tracer {
   constructor (config) {
@@ -19,7 +20,7 @@ class DatadogTracer extends Tracer {
     const protocol = config.protocol || 'http'
 
     this._service = service
-    this._endpoint = endpoint || `${protocol}://${hostname}:${port}`
+    this._endpoint = new Endpoint(endpoint || `${protocol}://${hostname}:${port}`)
   }
 
   _startSpan (name, fields) {
@@ -40,6 +41,8 @@ class DatadogTracer extends Tracer {
     return getPropagator(format).extract(carrier)
   }
 }
+
+Object.assign(DatadogTracer.prototype, EventEmitter.prototype)
 
 function getPropagator (format) {
   let propagator
@@ -76,7 +79,5 @@ function getParent (references) {
 
   return parent
 }
-
-Object.assign(DatadogTracer.prototype, EventEmitter.prototype)
 
 module.exports = DatadogTracer

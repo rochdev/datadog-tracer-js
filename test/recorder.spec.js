@@ -1,6 +1,7 @@
 'use strict'
 
 const Long = require('long')
+const Endpoint = require('../src/endpoint')
 
 describe('Recorder', () => {
   let Recorder
@@ -15,7 +16,7 @@ describe('Recorder', () => {
 
     tracer = {
       _service: 'service',
-      _endpoint: 'http://localhost:8080'
+      _endpoint: new Endpoint('https://localhost:8080')
     }
 
     spanContext = {
@@ -61,16 +62,13 @@ describe('Recorder', () => {
 
     nock('http://localhost:8080', {
       reqheaders: {
-        'Content-Type': 'application/json'
+        'content-type': 'application/json'
       }
     })
       .put('/v0.3/traces', request)
       .reply(200, expected)
 
-    return recorder.record(span).then(response => {
-      expect(response.status).to.equal(200)
-      expect(response.text).to.equal(expected)
-    })
+    return recorder.record(span)
   })
 
   it('should support long integers for IDs', () => {
@@ -86,15 +84,12 @@ describe('Recorder', () => {
 
     nock('http://localhost:8080', {
       reqheaders: {
-        'Content-Type': 'application/json'
+        'content-type': 'application/json'
       }
     })
       .put('/v0.3/traces', JSON.stringify(request).replace(/"(trace_id|span_id|parent_id)":"(\d+)"/g, '"$1":$2'))
       .reply(200, expected)
 
-    return recorder.record(span).then(response => {
-      expect(response.status).to.equal(200)
-      expect(response.text).to.equal(expected)
-    })
+    return recorder.record(span)
   })
 })

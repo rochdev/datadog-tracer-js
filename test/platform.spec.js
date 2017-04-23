@@ -1,6 +1,7 @@
 'use strict'
 
 const proxyquire = require('proxyquire')
+const nock = require('nock')
 
 describe('Platform', () => {
   let platform
@@ -31,5 +32,51 @@ describe('Platform', () => {
     Math.random.onCall(3).returns(0)
 
     expect(platform.id().toString()).to.equal(String(255 << 8))
+  })
+
+  it('should send an http request', () => {
+    nock('http://test:123', {
+      reqheaders: {
+        'content-type': 'application/json',
+        'content-length': '13'
+      }
+    })
+      .put('/path', { foo: 'bar' })
+      .reply(200)
+
+    return platform.request({
+      protocol: 'http:',
+      hostname: 'test',
+      port: 123,
+      path: '/path',
+      method: 'PUT',
+      data: JSON.stringify({ foo: 'bar' })
+    })
+  })
+
+  it('should handle an http error response', () => {
+    nock('http://localhost:80')
+      .put('/path')
+      .reply(400)
+
+    return platform.request({
+      path: '/path',
+      method: 'PUT'
+    })
+      .then(() => setImmediate(() => { throw new Error() }))
+      .catch(e => {
+        expect(e).to.be.instanceof(Error)
+      })
+  })
+
+  it('should handle an http network error', () => {
+    return platform.request({
+      path: '/path',
+      method: 'PUT'
+    })
+      .then(() => setImmediate(() => { throw new Error() }))
+      .catch(e => {
+        expect(e).to.be.instanceof(Error)
+      })
   })
 })
