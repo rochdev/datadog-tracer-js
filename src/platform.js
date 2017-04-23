@@ -60,7 +60,7 @@ function random () {
   let number = 0
 
   for (let i = 0; i < 4; i++) {
-    number += Math.floor(Math.random() * 255) << (i * 8)
+    number += Math.floor(Math.random() * 256) << (i * 8)
   }
 
   return number

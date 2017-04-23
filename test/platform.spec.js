@@ -27,7 +27,7 @@ describe('Platform', () => {
 
   it('should return a random 64bit ID', () => {
     Math.random.onCall(0).returns(0)
-    Math.random.onCall(1).returns(1)
+    Math.random.onCall(1).returns(0.999)
     Math.random.onCall(2).returns(0)
     Math.random.onCall(3).returns(0)
 
