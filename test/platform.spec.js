@@ -2,21 +2,25 @@
 
 const proxyquire = require('proxyquire')
 const nock = require('nock')
+const Buffer = require('safe-buffer').Buffer
 
 describe('Platform', () => {
   let platform
   let now
+  let crypto
 
   beforeEach(() => {
     sinon.stub(Date, 'now').returns(1000000000)
-    sinon.stub(Math, 'random')
+    crypto = { randomBytes: sinon.stub() }
     now = sinon.stub().returns(100.11111)
-    platform = proxyquire('../src/platform', { 'performance-now': now })
+    platform = proxyquire('../src/platform', {
+      'performance-now': now,
+      'crypto': crypto
+    })
   })
 
   afterEach(() => {
     Date.now.restore()
-    Math.random.restore()
   })
 
   it('should return the current time in milliseconds with high resolution', () => {
@@ -26,12 +30,12 @@ describe('Platform', () => {
   })
 
   it('should return a random 64bit ID', () => {
-    Math.random.onCall(0).returns(0)
-    Math.random.onCall(1).returns(0.999)
-    Math.random.onCall(2).returns(0)
-    Math.random.onCall(3).returns(0)
+    const buffer = Buffer.alloc(8)
+    buffer.writeUInt16LE(65280)
 
-    expect(platform.id().toString()).to.equal(String(255 << 8))
+    crypto.randomBytes.returns(buffer)
+
+    expect(platform.id().toString()).to.equal('65280')
   })
 
   it('should send an http request', () => {
