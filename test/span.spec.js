@@ -42,6 +42,13 @@ describe('Span', () => {
     expect(span.tracer()).to.equal(tracer)
   })
 
+  it('should set the operation name', () => {
+    span = new Span(tracer, { operationName: 'foo' })
+    span.setOperationName('bar')
+
+    expect(span._operationName).to.equal('bar')
+  })
+
   it('should set baggage items', () => {
     span = new Span(tracer, { operationName: 'operation' })
     span.setBaggageItem('foo', 'bar')
