@@ -1,6 +1,7 @@
 'use strict'
 
 const http = require('http')
+const crypto = require('crypto')
 const now = require('performance-now')
 const Long = require('long')
 const loadNs = now()
@@ -12,7 +13,8 @@ module.exports = {
   },
 
   id () {
-    return new Long(random(), random(), true)
+    const buffer = crypto.randomBytes(8)
+    return new Long(buffer.readUInt32LE(), buffer.readUInt32LE(4), true)
   },
 
   request (options) {
@@ -54,14 +56,4 @@ module.exports = {
       req.end()
     })
   }
-}
-
-function random () {
-  let number = 0
-
-  for (let i = 0; i < 4; i++) {
-    number += Math.floor(Math.random() * 256) << (i * 8)
-  }
-
-  return number
 }

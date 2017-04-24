@@ -47,6 +47,7 @@
     "nock": "^9.0.13",
     "nyc": "^10.2.0",
     "proxyquire": "^1.7.11",
+    "safe-buffer": "^5.0.1",
     "sinon": "^2.1.0",
     "sinon-chai": "^2.9.0",
     "underscore": "^1.8.3"
