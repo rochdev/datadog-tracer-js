@@ -1,11 +1,7 @@
 'use strict'
 
-const path = require('path')
-const protobuf = require('protobufjs')
 const SpanContext = require('../span_context')
-
-const builder = protobuf.loadSync(path.join(__dirname, 'state.proto'))
-const TracerState = builder.lookupType('TracerState')
+const TracerState = require('./state.proto.js').TracerState
 
 class BinaryPropagator {
   inject (spanContext, carrier) {
