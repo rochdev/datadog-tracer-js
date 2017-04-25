@@ -1,7 +1,7 @@
 'use strict'
 
 const http = require('http')
-const crypto = require('crypto')
+const randomBytes = require('randombytes')
 const now = require('performance-now')
 const Long = require('long')
 const loadNs = now()
@@ -13,7 +13,7 @@ module.exports = {
   },
 
   id () {
-    const buffer = crypto.randomBytes(8)
+    const buffer = randomBytes(8)
     return new Long(buffer.readUInt32LE(), buffer.readUInt32LE(4), true)
   },
 
