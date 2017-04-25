@@ -7,15 +7,15 @@ const Buffer = require('safe-buffer').Buffer
 describe('Platform', () => {
   let platform
   let now
-  let crypto
+  let randomBytes
 
   beforeEach(() => {
     sinon.stub(Date, 'now').returns(1000000000)
-    crypto = { randomBytes: sinon.stub() }
+    randomBytes = sinon.stub()
     now = sinon.stub().returns(100.11111)
     platform = proxyquire('../src/platform', {
       'performance-now': now,
-      'crypto': crypto
+      'randombytes': randomBytes
     })
   })
 
@@ -33,7 +33,7 @@ describe('Platform', () => {
     const buffer = Buffer.alloc(8)
     buffer.writeUInt16LE(65280)
 
-    crypto.randomBytes.returns(buffer)
+    randomBytes.returns(buffer)
 
     expect(platform.id().toString()).to.equal('65280')
   })
