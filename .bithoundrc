@@ -1,0 +1,9 @@
+{
+  "ignore": [
+    "**/node_modules/**",
+    "src/**/*.proto.js"
+  ],
+  "test": [
+    "**/test/**"
+  ]
+}

@@ -4,10 +4,19 @@
   "description": "OpenTracing Tracer implementation for Datadog in JavaScript",
   "main": "src/index.js",
   "scripts": {
+    "pbjs": "pbjs -t static-module src/propagation/state.proto > src/propagation/state.proto.js",
     "lint": "eslint .",
     "test": "eslint . && nyc --reporter=lcov --reporter=text mocha",
     "tdd": "mocha --watch",
     "codecov": "codecov"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.js"
+    ],
+    "exclude": [
+      "src/**/*.proto.js"
+    ]
   },
   "repository": {
     "type": "git",

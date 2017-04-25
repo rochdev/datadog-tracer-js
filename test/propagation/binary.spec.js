@@ -1,11 +1,7 @@
 'use strict'
 
-const path = require('path')
-const protobuf = require('protobufjs')
 const Long = require('long')
-
-const builder = protobuf.loadSync(path.join(__dirname, '..', '..', 'src', 'propagation', 'state.proto'))
-const TracerState = builder.lookupType('TracerState')
+const TracerState = require('../../src/propagation/state.proto.js').TracerState
 
 describe('Binary Propagator', () => {
   let BinaryPropagator
@@ -21,7 +17,8 @@ describe('Binary Propagator', () => {
       spanId: new Long(456, 0, true),
       sampled: true,
       baggageItems: {
-        foo: 'bar'
+        foo: 'bar',
+        baz: 'qux'
       }
     }
 
@@ -32,7 +29,8 @@ describe('Binary Propagator', () => {
 
     expect(state).to.deep.equal(Object.assign({}, spanContext, {
       baggageItems: {
-        foo: '"bar"'
+        foo: '"bar"',
+        baz: '"qux"'
       }
     }))
   })
@@ -43,12 +41,14 @@ describe('Binary Propagator', () => {
       spanId: new Long(456, 0, true),
       sampled: true,
       baggageItems: {
-        foo: 'bar'
+        foo: 'bar',
+        baz: 'qux'
       }
     }
     const state = TracerState.create(Object.assign({}, spanContext, {
       baggageItems: {
-        foo: '"bar"'
+        foo: '"bar"',
+        baz: '"qux"'
       }
     }))
     const carrier = {
