@@ -1,7 +1,8 @@
 {
   "ignore": [
     "**/node_modules/**",
-    "src/**/*.proto.js"
+    "src/**/*.proto.js",
+    "dist/**"
   ],
   "test": [
     "**/test/**"

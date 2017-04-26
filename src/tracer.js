@@ -21,6 +21,11 @@ class DatadogTracer extends Tracer {
 
     this._service = service
     this._endpoint = new Endpoint(endpoint || `${protocol}://${hostname}:${port}`)
+    this._propagators = {
+      [opentracing.FORMAT_TEXT_MAP]: new TextMapPropagator(),
+      [opentracing.FORMAT_HTTP_HEADERS]: new TextMapPropagator(),
+      [opentracing.FORMAT_BINARY]: new BinaryPropagator()
+    }
   }
 
   _startSpan (name, fields) {
@@ -33,32 +38,16 @@ class DatadogTracer extends Tracer {
   }
 
   _inject (spanContext, format, carrier) {
-    getPropagator(format).inject(spanContext, carrier)
+    this._propagators[format].inject(spanContext, carrier)
     return this
   }
 
   _extract (format, carrier) {
-    return getPropagator(format).extract(carrier)
+    return this._propagators[format].extract(carrier)
   }
 }
 
 Object.assign(DatadogTracer.prototype, EventEmitter.prototype)
-
-function getPropagator (format) {
-  let propagator
-
-  switch (format) {
-    case opentracing.FORMAT_HTTP_HEADERS:
-    case opentracing.FORMAT_TEXT_MAP:
-      propagator = new TextMapPropagator()
-      break
-    case opentracing.FORMAT_BINARY:
-      propagator = new BinaryPropagator()
-      break
-  }
-
-  return propagator
-}
 
 function getParent (references) {
   let parent = null

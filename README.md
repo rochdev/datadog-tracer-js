@@ -8,7 +8,7 @@
 [![bitHound Dependencies](https://www.bithound.io/github/rochdev/datadog-tracer-js/badges/dependencies.svg)](https://www.bithound.io/github/rochdev/datadog-tracer-js/master/dependencies/npm)
 
 OpenTracing tracer implementation for Datadog in JavaScript.
-It is intended for use both on the server and (soon) in the browser.
+It is intended for use both on the server and in the browser.
 
 ## Installation
 
@@ -22,7 +22,23 @@ npm install --save datadog-tracer
 
 ### Browser
 
-*Not yet supported*
+The library supports CommonJS and AMD loaders and also exports globally as `DatadogTracer`.
+
+**NOTE:** If you want to use binary propagation, make sure to also include the minimal version of [protobuf.js](https://github.com/dcodeIO/protobuf.js/tree/master/dist/minimal) before this library.
+
+#### CDN
+
+```html
+<script src="//cdn.rawgit.com/rochdev/datadog-tracer-js/0.X.X/dist/datadog-tracer.min.js"></script>
+```
+
+**NOTE:** Remember to replace the version tag with the exact [release](https://github.com/rochdev/datadog-tracer-js/tags) your project depends upon.
+
+#### Frontend
+
+```html
+<script src="node_modules/datadog-tracer/dist/datadog-tracer.min.js"></script>
+```
 
 ## Usage
 
@@ -68,7 +84,7 @@ app.get('/hello/:name', (req, res) => {
 app.listen(3000)
 ```
 
-See the [example](example) folder for a more advanced version.
+See the [examples](examples) folder for more advanced examples.
 
 ## API Documentation
 

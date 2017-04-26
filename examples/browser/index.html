@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Browser Example</title>
+  <script src="dist/datadog-tracer.min.js"></script>
+</head>
+<body>
+  <button id="trace" type="button">Send Trace</button>
+  <script>
+    var tracer = new DatadogTracer({
+      service: 'example',
+      hostname: window.location.hostname,
+      port: 8080
+    })
+
+    document.getElementById('trace').addEventListener('click', function () {
+      var span = tracer.startSpan('browser.request')
+
+      span.addTags({
+        'resource': window.location.pathname,
+        'type': 'web',
+        'span.kind': 'client'
+      })
+
+      span.finish()
+    })
+  </script>
+</body>
+</html>
