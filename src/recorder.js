@@ -1,6 +1,5 @@
 'use strict'
 
-const bignumJSON = require('json-bignum')
 const platform = require('./platform')
 
 class DatadogRecorder {
@@ -8,10 +7,10 @@ class DatadogRecorder {
     const tracer = span.tracer()
     const spanContext = span.context()
 
-    const data = bignumJSON.stringify([[{
-      trace_id: new bignumJSON.BigNumber(spanContext.traceId.toString()),
-      span_id: new bignumJSON.BigNumber(spanContext.spanId.toString()),
-      parent_id: span._parentId ? new bignumJSON.BigNumber(span._parentId.toString()) : null,
+    const data = platform.stringify([[{
+      trace_id: spanContext.traceId,
+      span_id: spanContext.spanId,
+      parent_id: span._parentId || null,
       name: span._operationName,
       resource: span._tags.resource,
       service: tracer._service,
