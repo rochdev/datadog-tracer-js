@@ -55,5 +55,27 @@ module.exports = {
       req.write(options.data)
       req.end()
     })
+  },
+
+  stringify (obj) {
+    switch (typeof obj) {
+      case 'object':
+        if (Long.isLong(obj)) {
+          return obj.toString()
+        } else if (Array.isArray(obj)) {
+          return '[' + obj.map(item => module.exports.stringify(item)).join(',') + ']'
+        } else if (obj !== null) {
+          return '{' + Object.keys(obj)
+            .map(key => `"${key}":` + module.exports.stringify(obj[key]))
+            .join(',') + '}'
+        }
+
+        return 'null'
+      case 'string':
+        return `"${obj}"`
+      case 'number':
+      case 'boolean':
+        return String(obj)
+    }
   }
 }

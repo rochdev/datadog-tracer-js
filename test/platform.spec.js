@@ -2,6 +2,7 @@
 
 const proxyquire = require('proxyquire')
 const nock = require('nock')
+const Long = require('long')
 const Buffer = require('safe-buffer').Buffer
 
 describe('Platform', () => {
@@ -82,5 +83,24 @@ describe('Platform', () => {
       .catch(e => {
         expect(e).to.be.instanceof(Error)
       })
+  })
+
+  it('should stringify an object to JSON', () => {
+    const obj = {
+      id: Long.fromString('18446744073709551615', true),
+      count: 123,
+      amount: 5.95,
+      name: 'bob',
+      tags: {
+        foo: 'bar',
+        baz: 'qux'
+      }
+    }
+
+    const json = platform.stringify(obj)
+
+    expect(json).to.equal(
+      '{"id":18446744073709551615,"count":123,"amount":5.95,"name":"bob","tags":{"foo":"bar","baz":"qux"}}'
+    )
   })
 })
