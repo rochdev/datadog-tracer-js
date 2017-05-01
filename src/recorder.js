@@ -1,13 +1,14 @@
 'use strict'
 
 const platform = require('./platform')
+const Long = require('long')
 
 class DatadogRecorder {
   record (span) {
     const tracer = span.tracer()
     const spanContext = span.context()
 
-    const data = platform.stringify([[{
+    const data = stringify([[{
       trace_id: spanContext.traceId,
       span_id: spanContext.spanId,
       parent_id: span._parentId || null,
@@ -29,6 +30,28 @@ class DatadogRecorder {
       method: 'PUT',
       data
     })
+  }
+}
+
+function stringify (obj) {
+  switch (typeof obj) {
+    case 'object':
+      if (Long.isLong(obj)) {
+        return obj.toString()
+      } else if (Array.isArray(obj)) {
+        return '[' + obj.map(item => stringify(item)).join(',') + ']'
+      } else if (obj !== null) {
+        return '{' + Object.keys(obj)
+          .map(key => `"${key}":` + stringify(obj[key]))
+          .join(',') + '}'
+      }
+
+      return 'null'
+    case 'string':
+      return `"${obj}"`
+    case 'number':
+    case 'boolean':
+      return String(obj)
   }
 }
 
