@@ -57,6 +57,6 @@
     "proxyquire": "^1.8.0",
     "safe-buffer": "^5.1.0",
     "sinon": "^4.0.0",
-    "sinon-chai": "^2.13.0"
+    "sinon-chai": "^2.14.0"
   }
 }
