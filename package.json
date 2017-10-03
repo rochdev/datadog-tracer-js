@@ -51,7 +51,7 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
     "express": "^4.15.3",
-    "mocha": "^3.4.2",
+    "mocha": "^4.0.0",
     "nock": "^9.0.13",
     "nyc": "^11.0.2",
     "proxyquire": "^1.8.0",
