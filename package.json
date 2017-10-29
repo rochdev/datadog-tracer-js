@@ -42,8 +42,10 @@
     "protobufjs": "^6.8.0"
   },
   "devDependencies": {
+    "body-parser": "^1.18.2",
     "chai": "^4.0.1",
     "codecov": "^3.0.0",
+    "continuation-local-storage": "^3.2.0",
     "eslint": "^4.8.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.6.0",
@@ -55,6 +57,7 @@
     "nock": "^9.0.13",
     "nyc": "^11.0.2",
     "proxyquire": "^1.8.0",
+    "redis-mock": "^0.20.0",
     "safe-buffer": "^5.1.0",
     "sinon": "^4.0.0",
     "sinon-chai": "^2.14.0"
