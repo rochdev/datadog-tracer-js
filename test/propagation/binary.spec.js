@@ -115,7 +115,7 @@ describe('Binary Propagator', () => {
       }).to.throw()
     })
 
-    it('should throw when trying to inject without Protobuf support', () => {
+    it('should throw when trying to extract without Protobuf support', () => {
       const spanContext = {
         traceId: new Long(123, 0, true),
         spanId: new Long(456, 0, true),
