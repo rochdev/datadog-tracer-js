@@ -10,7 +10,6 @@
     "browser": "live-server examples/browser --mount=/dist:./dist --proxy=/v0.3:http://localhost:8126/v0.3",
     "lint": "eslint .",
     "test": "eslint . && nyc --reporter=lcov --reporter=text mocha",
-    "test:browser": "karma start",
     "tdd": "mocha --watch",
     "codecov": "codecov"
   },
