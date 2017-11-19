@@ -1,7 +1,7 @@
 'use strict'
 
 const express = require('express')
-const Tracer = require('../src')
+const Tracer = require('../..')
 
 const app = express()
 const tracer = new Tracer({ service: 'example' })
