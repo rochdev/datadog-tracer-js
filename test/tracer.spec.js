@@ -38,8 +38,6 @@ describe('Tracer', () => {
       './propagation/text_map': TextMapPropagator,
       './propagation/binary': BinaryPropagator
     })
-
-    tracer = new Tracer({ service: 'service' })
   })
 
   it('should support host configuration', () => {
@@ -65,6 +63,7 @@ describe('Tracer', () => {
     fields.tags = { foo: 'bar' }
     fields.startTime = 1234567890000000000
 
+    tracer = new Tracer({ service: 'service' })
     const testSpan = tracer.startSpan('name', fields)
 
     expect(Span).to.have.been.calledWith(tracer, {
@@ -84,6 +83,7 @@ describe('Tracer', () => {
       new Reference(opentracing.REFERENCE_CHILD_OF, parent)
     ]
 
+    tracer = new Tracer({ service: 'service' })
     tracer.startSpan('name', fields)
 
     expect(Span).to.have.been.calledWithMatch(tracer, {
@@ -99,6 +99,7 @@ describe('Tracer', () => {
       new Reference(opentracing.REFERENCE_FOLLOWS_FROM, parent)
     ]
 
+    tracer = new Tracer({ service: 'service' })
     tracer.startSpan('name', fields)
 
     expect(Span).to.have.been.calledWithMatch(tracer, {
@@ -115,6 +116,7 @@ describe('Tracer', () => {
       new Reference(opentracing.REFERENCE_FOLLOWS_FROM, {})
     ]
 
+    tracer = new Tracer({ service: 'service' })
     tracer.startSpan('name', fields)
 
     expect(Span).to.have.been.calledWithMatch(tracer, {
@@ -128,6 +130,7 @@ describe('Tracer', () => {
       new Reference('test', {})
     ]
 
+    tracer = new Tracer({ service: 'service' })
     tracer.startSpan('name', fields)
 
     expect(Span).to.have.been.calledWithMatch(tracer, {
@@ -139,6 +142,7 @@ describe('Tracer', () => {
   it('should support error event', done => {
     const error = new Error()
 
+    tracer = new Tracer({ service: 'service' })
     tracer.on('error', e => {
       expect(e).to.equal(error)
       done()
@@ -150,6 +154,7 @@ describe('Tracer', () => {
   it('should support inject of text map format', () => {
     TextMapPropagator.returns(propagator)
 
+    tracer = new Tracer({ service: 'service' })
     tracer.inject(spanContext, opentracing.FORMAT_TEXT_MAP, carrier)
 
     expect(propagator.inject).to.have.been.calledWith(spanContext, carrier)
@@ -158,6 +163,7 @@ describe('Tracer', () => {
   it('should support inject of http headers format', () => {
     TextMapPropagator.returns(propagator)
 
+    tracer = new Tracer({ service: 'service' })
     tracer.inject(spanContext, opentracing.FORMAT_HTTP_HEADERS, carrier)
 
     expect(propagator.inject).to.have.been.calledWith(spanContext, carrier)
@@ -166,6 +172,7 @@ describe('Tracer', () => {
   it('should support inject of binary format', () => {
     BinaryPropagator.returns(propagator)
 
+    tracer = new Tracer({ service: 'service' })
     tracer.inject(spanContext, opentracing.FORMAT_BINARY, carrier)
 
     expect(propagator.inject).to.have.been.calledWith(spanContext, carrier)
@@ -175,6 +182,7 @@ describe('Tracer', () => {
     TextMapPropagator.returns(propagator)
     propagator.extract.withArgs(carrier).returns('spanContext')
 
+    tracer = new Tracer({ service: 'service' })
     const spanContext = tracer.extract(opentracing.FORMAT_TEXT_MAP, carrier)
 
     expect(spanContext).to.equal('spanContext')
@@ -184,6 +192,7 @@ describe('Tracer', () => {
     TextMapPropagator.returns(propagator)
     propagator.extract.withArgs(carrier).returns('spanContext')
 
+    tracer = new Tracer({ service: 'service' })
     const spanContext = tracer.extract(opentracing.FORMAT_HTTP_HEADERS, carrier)
 
     expect(spanContext).to.equal('spanContext')
@@ -193,6 +202,7 @@ describe('Tracer', () => {
     BinaryPropagator.returns(propagator)
     propagator.extract.withArgs(carrier).returns('spanContext')
 
+    tracer = new Tracer({ service: 'service' })
     const spanContext = tracer.extract(opentracing.FORMAT_BINARY, carrier)
 
     expect(spanContext).to.equal('spanContext')

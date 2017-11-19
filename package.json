@@ -2,9 +2,12 @@
   "name": "datadog-tracer",
   "version": "0.3.4",
   "description": "OpenTracing Tracer implementation for Datadog in JavaScript",
-  "main": "src/index.js",
+  "main": "index.js",
+  "browser": "browser.js",
   "scripts": {
     "pbjs": "pbjs -t static-module src/propagation/state.proto > src/propagation/state.proto.js",
+    "build": "gulp --gulpfile scripts/gulpfile.js",
+    "browser": "live-server examples/browser --mount=/dist:./dist --proxy=/v0.3:http://localhost:8126/v0.3",
     "lint": "eslint .",
     "test": "eslint . && nyc --reporter=lcov --reporter=text mocha",
     "tdd": "mocha --watch",
@@ -17,6 +20,9 @@
     "exclude": [
       "src/**/*.proto.js"
     ]
+  },
+  "browserify-shim": {
+    "protobufjs/minimal": "global:protobuf"
   },
   "repository": {
     "type": "git",
@@ -36,12 +42,21 @@
   "homepage": "https://github.com/rochdev/datadog-tracer-js#readme",
   "dependencies": {
     "@protobufjs/eventemitter": "^1.1.0",
+    "es6-promise": "^4.1.1",
     "long": "^3.2.0",
+    "mersenne-twister": "^1.1.0",
     "opentracing": "^0.14.1",
     "performance-now": "^2.1.0",
-    "protobufjs": "^6.8.0"
+    "protobufjs": "^6.8.0",
+    "typedarray": "0.0.6"
   },
   "devDependencies": {
+    "babel-plugin-transform-object-assign": "^6.22.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babelify": "^7.3.0",
+    "browserify": "^14.3.0",
+    "browserify-shim": "^3.8.14",
+    "bundle-collapser": "^1.2.1",
     "chai": "^4.0.1",
     "codecov": "^3.0.0",
     "eslint": "^4.8.0",
@@ -50,13 +65,25 @@
     "eslint-plugin-node": "^5.0.0",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
+    "exorcist": "^0.4.0",
     "express": "^4.15.3",
+    "gulp": "^3.9.1",
+    "gulp-header": "^1.8.8",
+    "gulp-if": "^2.0.2",
+    "gulp-sourcemaps": "^2.6.0",
+    "gulp-uglify": "^2.1.2",
+    "gulp-util": "^3.0.8",
+    "live-server": "^1.2.0",
     "mocha": "^4.0.0",
     "nock": "^9.0.13",
+    "node-zopfli": "^2.0.2",
     "nyc": "^11.0.2",
     "proxyquire": "^1.8.0",
     "safe-buffer": "^5.1.0",
     "sinon": "^4.0.0",
-    "sinon-chai": "^2.14.0"
+    "sinon-chai": "^2.14.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-fs": "^2.4.4",
+    "vinyl-source-stream": "^1.1.0"
   }
 }

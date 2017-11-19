@@ -1,4 +1,4 @@
-# Datadog Tracer Example
+# Express Example
 
 To run the example, first you need a local Datadog agent. The easiest way to get one is using the official Docker image:
 
@@ -11,7 +11,7 @@ docker run -d --name dd-agent -v /var/run/docker.sock:/var/run/docker.sock:ro -v
 Once the container is running, you can run the example server:
 
 ```sh
-node example
+node examples/express
 ```
 
 This will start the server on port `3000`. You can then make requests on the server to generate traces:

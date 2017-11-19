@@ -19,7 +19,7 @@ class DatadogRecorder {
       error: +!!span._tags.error,
       meta: span._tags,
       start: Math.round(span._startTime * 1e6),
-      duration: Math.round(span._duration * 1e6)
+      duration: Math.max(Math.round(span._duration * 1e6), 1)
     }]])
 
     return platform.request({
