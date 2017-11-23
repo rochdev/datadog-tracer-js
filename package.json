@@ -5,7 +5,7 @@
   "main": "index.js",
   "browser": "browser.js",
   "scripts": {
-    "pbjs": "pbjs -t static-module src/propagation/state.proto > src/propagation/state.proto.js",
+    "pbjs": "pbjs -t static-module -w commonjs src/propagation/state.proto > src/propagation/state.proto.js",
     "build": "gulp --gulpfile scripts/gulpfile.js",
     "browser": "live-server examples/browser --mount=/dist:./dist --proxy=/v0.3:http://localhost:8126/v0.3",
     "lint": "eslint .",
