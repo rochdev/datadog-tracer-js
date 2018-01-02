@@ -70,7 +70,7 @@
     "gulp": "^3.9.1",
     "gulp-header": "^1.8.8",
     "gulp-if": "^2.0.2",
-    "gulp-sourcemaps": "^2.6.0",
+    "gulp-sourcemaps": "2.6.2",
     "gulp-uglify": "^2.1.2",
     "gulp-util": "^3.0.8",
     "live-server": "^1.2.0",
