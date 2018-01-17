@@ -80,7 +80,7 @@
     "nyc": "^11.0.2",
     "proxyquire": "^1.8.0",
     "safe-buffer": "^5.1.0",
-    "sinon": "^4.0.0",
+    "sinon": "4.1.5",
     "sinon-chai": "^2.14.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-fs": "^2.4.4",
