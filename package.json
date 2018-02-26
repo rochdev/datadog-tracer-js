@@ -47,7 +47,7 @@
     "mersenne-twister": "^1.1.0",
     "opentracing": "^0.14.1",
     "performance-now": "^2.1.0",
-    "protobufjs": "^6.8.0",
+    "protobufjs": "^6.8.6",
     "typedarray": "0.0.6"
   },
   "devDependencies": {
