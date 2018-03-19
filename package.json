@@ -78,7 +78,7 @@
     "nock": "^9.0.13",
     "node-zopfli": "^2.0.2",
     "nyc": "^11.0.2",
-    "proxyquire": "^1.8.0",
+    "proxyquire": "^2.0.1",
     "safe-buffer": "^5.1.0",
     "sinon": "^4.0.0",
     "sinon-chai": "^2.14.0",
