@@ -1,4 +1,4 @@
-# Datadog Tracer
+# Datadog Tracer (deprecated)
 
 [![npm](https://img.shields.io/npm/v/datadog-tracer.svg)](https://www.npmjs.com/package/datadog-tracer)
 [![Build Status](https://travis-ci.org/rochdev/datadog-tracer-js.svg?branch=master)](https://travis-ci.org/rochdev/datadog-tracer-js)
@@ -6,6 +6,8 @@
 [![Code Climate](https://codeclimate.com/github/rochdev/datadog-tracer-js/badges/gpa.svg)](https://codeclimate.com/github/rochdev/datadog-tracer-js)
 [![Greenkeeper badge](https://badges.greenkeeper.io/rochdev/datadog-tracer-js.svg)](https://greenkeeper.io/)
 [![bitHound Dependencies](https://www.bithound.io/github/rochdev/datadog-tracer-js/badges/dependencies.svg)](https://www.bithound.io/github/rochdev/datadog-tracer-js/master/dependencies/npm)
+
+## DEPRECATED: The official library [dd-trace-js](https://github.com/DataDog/dd-trace-js) has now been released.
 
 OpenTracing tracer implementation for Datadog in JavaScript.
 It is intended for use both on the server and in the browser.
