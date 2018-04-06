@@ -1,7 +1,7 @@
 {
   "name": "datadog-tracer",
   "version": "0.4.1",
-  "description": "OpenTracing Tracer implementation for Datadog in JavaScript",
+  "description": "[DEPRECATED] OpenTracing Tracer implementation for Datadog in JavaScript",
   "main": "index.js",
   "browser": "browser.js",
   "scripts": {
@@ -28,12 +28,7 @@
     "type": "git",
     "url": "git+https://github.com/rochdev/datadog-tracer-js.git"
   },
-  "keywords": [
-    "datadog",
-    "tracer",
-    "opentracing",
-    "apm"
-  ],
+  "keywords": [],
   "author": "Roch Devost",
   "license": "MIT",
   "bugs": {
