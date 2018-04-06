@@ -1,6 +1,6 @@
 {
   "name": "datadog-tracer",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "[DEPRECATED] OpenTracing Tracer implementation for Datadog in JavaScript",
   "main": "index.js",
   "browser": "browser.js",
