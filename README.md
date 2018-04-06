@@ -1,4 +1,4 @@
-# Datadog Tracer (deprecated)
+# Datadog Tracer
 
 [![npm](https://img.shields.io/npm/v/datadog-tracer.svg)](https://www.npmjs.com/package/datadog-tracer)
 [![Build Status](https://travis-ci.org/rochdev/datadog-tracer-js.svg?branch=master)](https://travis-ci.org/rochdev/datadog-tracer-js)
