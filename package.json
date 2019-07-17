@@ -38,7 +38,7 @@
   "dependencies": {
     "@protobufjs/eventemitter": "^1.1.0",
     "es6-promise": "^4.1.1",
-    "long": "^3.2.0",
+    "long": "^4.0.0",
     "mersenne-twister": "^1.1.0",
     "opentracing": "^0.14.1",
     "performance-now": "^2.1.0",
