@@ -79,6 +79,6 @@
     "sinon-chai": "^2.14.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-fs": "^2.4.4",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-source-stream": "^2.0.0"
   }
 }
